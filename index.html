@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="va">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="style.css"></head>
+<body>
+	<div ng-controller="testCtrl">
+		<div ng-if="showTab=='form1'">
+			<button type="button" vsubmit func="ok('hehe')" fname="myForm">submit1</button>
+		</div>
+		<div ng-if="showTab=='form2'">
+			<button type="submit" vsubmit func="ok('nimei')" fname="you">submit2</button>
+			<button type="submit" vsubmit func="ok('nimei')" fname="regForm">submit3</button>
+		</div>
+		<div ng-if="showTab=='form3'">
+			<button type="submit" vsubmit func="ok('hehe')" fname="generalForm">submit3</button>
+		</div>
+		<div ng-if="showTab=='form4'">
+			<button type="submit" vsubmit func="ok('hehe')" fname="generalForm">test</button>
+		</div>
+		<div class="clearfix">
+			<ul>
+				<li ng-click="jump('form1')">基本类型表单</li>
+				<li ng-click="jump('form2')">自定义正则||方法表单</li>
+				<li ng-click="jump('form3')">自定义验证</li>
+				<li ng-click="jump('form4')">测试</li>
+			</ul>
+		</div>
+		<div class="top" ng-switch on="showTab" ng-init="showTab='form1'">
+			<div ng-switch-when="form1"  get-Form="myForm">
+				<div>
+					<form name="myForm">
+						<div>
+							<span>input[type="text"]</span>
+							<label>
+								<input type="text" ng-model="text1" name="myField1" verify verify-Required verify-Number/>
+							</label>
+						</div>
+						<div>
+							<span>textarea</span>
+							<textarea rows="3" cols="20" name="myField2" ng-model="text2" verify verify-Number></textarea>
+						</div>
+						<div>
+							<span>select</span>
+							<select ng-model="text3" name="myField3" ng-options="o for o in options" verify verify-Required ></select>
+						</div>
+						<div>
+							<span>ipnut[type="radio"]</span>
+							<label>
+								<input type="radio" ng-model="myFiled4" value="red" />
+								Red
+							</label>
+							<label>
+								<input type="radio" ng-model="myFiled4" value="blue" />
+								blue
+							</label>
+							<input type="hidden" ng-model="myFiled4" name="myFiled4" verify verify-Required />
+						</div>
+
+						<div>
+							<span>input[type="checkbox"]</span>
+							<label ng-repeat="item in diam">
+								<input type="checkbox"  ng-click="check(item)">{{item.Code}}</label>
+							<input type="hidden" ng-model="myFiled5" name="myFiled5" verify verify-Required-Checkbox verify-Required-Checkbox-Min-Length="2" verify-Msg="请选择2个以上(含2个)"/>
+						</div>
+						<!-- <button type="submit" vsubmit func="ok('hehe')" fname="myForm">submit</button>
+					-->
+				</form>
+			</div>
+
+			<!-- <div>
+			<button type="button" vsubmit func="ok('hehe')" fname="myForm">submit</button>
+		</div>
+		-->
+	</div>
+	<div ng-switch-when="form2" get-Form="you,regForm">
+
+		<form name="you">
+			<div>
+				<span>自定义正则</span>
+				<label>
+					<input type="text" ng-model="myField6" name="myField6" verify verify-Required verify-Custom-Reg="^[0-9]+$" verify-Msg="听说这是正则"/>
+				</label>
+			</div>
+			<div>
+				<span>自定义方法</span>
+				<label>
+					<input type="text" ng-model="myField7" name="myField7" verify verify-General="text|y||25" verify-Custom-func="hehe()" verify-Msg="听说这是自定义方法"/>
+				</label>
+			</div>
+			<!-- <button type="submit" vsubmit fun="ok('nimei')" fname="you">submit</button>
+		-->
+		<button type="submit" vsubmit fun="ok('nimei')" fname="you">submitTest</button>
+	</form>
+	<form name="regForm">
+		<label>
+			<input type="text" ng-model="regField" name="" ng-pattern="/^[0-9]+$/" />
+		</label>
+		<div class=""></div>
+	</form>
+</div>
+<div ng-switch-when="form3" get-Form="generalForm">
+	<form name="generalForm">
+		<div>
+			<span>input自定义——纯整数</span>
+			<label>
+				<input type="text" ng-model="generalInt" name="generalInt" verify verify-General="int|y|100|103"/>
+			</label>
+		</div>
+		<div>
+			<span>input自定义——纯小数</span>
+			<label>
+				<input type="text" ng-model="generalDecimal" name="generalDecimal" verify verify-General="decimal|y|5|4"/>
+			</label>
+		</div>
+		<div>
+			<span>input自定义——text</span>
+			<label>
+				<input type="text" ng-model="generalText" name="generalText" verify verify-General="text|n||50"/>
+			</label>
+		</div>
+		<div>
+			<span>input自定义——ctext</span>
+			<label>
+				<input type="text" ng-model="generalcText" name="generalcText" verify verify-General="ctext|n||50"/>
+			</label>
+		</div>
+		<div>
+			<span>input自定义——etext</span>
+			<label>
+				<input type="text" ng-model="generaleText" name="generaleText" verify verify-General="etext|n||50"/>
+			</label>
+		</div>
+		<div>
+			<span>input自定义——Date</span>
+			<label>
+				<input type="text" ng-model="generalDate" name="generalDate" placeholder="日/月/年" verify verify-General="date|n|13/09/1991"/>
+			</label>
+		</div>
+		<div>
+			<span>input自定义——由至Date</span>
+			<label verify-Time-Slot="y|13/09/1991|09/09/2019">
+				<span>由</span>
+				<input type="text" ng-model="generalFromDate" name="generalFromDate" placeholder="日/月/年"/>
+				<span>至</span>
+				<input type="text" ng-model="generalToDate" name="generalToDate" placeholder="日/月/年"/>
+			</label>
+		</div>
+		<!-- <button type="submit" vsubmit func="ok('hehe')" fname="generalForm">submit</button>
+	-->
+</form>
+</div>
+<div ng-switch-when="form4" get-Form="specialForm">
+<form name="specialForm">
+	<div ng-repeat="item in CurrentProfit.ProfitList">
+		<label for="">檯號&#160;&#160;{{item.TableNumber}}</label>
+		<input name="{{item.TableNumber}}" type="text" ng-model="item.Amount" value="{{item.Amount}}" tran-To-Number="4,y|10000|30000" />
+
+	</div>
+</form>
+</div>
+</div>
+</div>
+
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/angular.js/1.4.5/angular.min.js"></script>
+<script src="testCtrl.js" ></script>
+</body>
+</html>

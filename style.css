@@ -1,0 +1,33 @@
+.isValid{
+ 	border: 1px solid red;
+ }
+ .error{
+ 	color: red;
+ }
+form{
+	margin-bottom: 20px;
+}
+form > div > span{
+	width: 200px;
+	display: inline-block;
+	margin-bottom: 15px;
+}
+ul{
+	list-style: none;
+}
+ul > li{
+	float: left;
+	width: 200px;
+	text-align: center;
+}
+.clearfix:after{
+	content: "\20";
+	clear: both;
+	height: 0;
+	display: block;
+	overflow: hidden;
+	zoom: 1;
+}
+.top{
+	margin-top: 20px;
+}
