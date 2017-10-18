@@ -189,7 +189,10 @@ define(['Module'], function(Module) {
 					}
 					showRequired($scope.msg);
 				}
-
+				
+				// 验证通过时，控制必填项*的显示，
+				// requiredSign=true 初始化,必填项*显示
+				// requiredSign=false 修改字段后，必填项*消失
 				this.getRequiredSign = function(arg) {
 					$scope.requiredSign = arg;
 				}
@@ -266,6 +269,23 @@ define(['Module'], function(Module) {
 
 
 				});
+				// 默认情况或通过验证时，显示*号,情况如下
+				// 1.默认情况：没有点击提交 && requiredSign仍然为初始值 （requiredSign = true 即没有修改过字段）&& 通过异步验证（没有异步验证时successShow=undefined）;
+				// 2.通过验证时：字段验证通过 && 修改后的requiredSign=false(修改过字段)或默认requiredSign=undefined && 通过异步验证（没有异步验证为successShow=undefined）
+				// <span ng-if="!$parent.' + formName + '.submitted && requiredSign && !successShow || $parent.' + formName + '[name].$valid && !requiredSign && requiredSign != undefined  && !successShow">*</span>
+				// 
+				// 不通过时显示错误信息，情况如下
+				// 1. 已经污染过 && 该字段不通过验证 && 有错误信息
+				// 2. 点击提交 && 该字段不通过验证 && 没有污染过 （即是初始化的状态，点击提交后验证，错误信息）
+				// msg为“必填项”时showRequired为true，其他情况为false不显示
+				// <span class="error" ng-if="$parent.' + formName + '[name].stamp && errorMsgShow || ($parent.' + formName + '.submitted && $parent.' + formName + '[name].$invalid && !$parent.' + formName + '[name].$dirty)">
+				// <span ng-if="showRequired">*</span>
+				// {{msg[0]}}
+				// </span>
+				//
+				// 异步后显示错误
+				// errorMsgShow控制错误信息的显示 
+				// <span class="verify-success" ng-if="asyncSuccessShow && errorMsgShow">{{msg[0]}}</span>
 				var template = '<span ng-if="!$parent.' + formName + '.submitted && requiredSign && !successShow || $parent.' + formName + '[name].$valid && !requiredSign && requiredSign != undefined  && !successShow">*</span><span class="error" ng-if="$parent.' + formName + '[name].stamp && errorMsgShow || ($parent.' + formName + '.submitted && $parent.' + formName + '[name].$invalid && !$parent.' + formName + '[name].$dirty)"><span ng-if="showRequired">*</span>{{msg[0]}}</span><span class="verify-success" ng-if="asyncSuccessShow && errorMsgShow">{{msg[0]}}</span>';
 				var content = $compile(template)(scope);
 				element.parent().append(content);
