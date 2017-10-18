@@ -752,7 +752,7 @@ define(['Module'], function(Module) {
 						scope.getRequiredSign(requiredSign);
 					},
 					/**
-					 * [blurEventFunc 错误时添加或移除类isValid]
+					 * [blurEventFunc 失去焦点时添加或移除类isValid]
 					 * @param  {[type]} ctrl    [description]
 					 * @param  {[obj]}  ctrl [当前ngModel值]
 					 * @param  {[obj]} element [当前的dom元素]
